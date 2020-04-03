@@ -85,4 +85,6 @@ error if {it:val} is not 0 or 1.
 
 {p 4 4 2}
 {cmd:directed(}{it:val}{cmd:)} and {cmd:weighted(}{it:val}{cmd:)} abort with an 
-error if their respective values have already been set.		   
+error if the network at time 0 is frozen, that is after 
+{help abm_nw_setup:setup()} has been run. {help abm_nw_clear:clear()} unfreezes 
+the network.

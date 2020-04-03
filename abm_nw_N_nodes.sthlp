@@ -66,5 +66,7 @@ functions, or decreased using the {help abm_nw_add_node:remove_node()} function.
 
 {p 4 4 2}
 {cmd:N_nodes(}{it:val}{cmd:)} aborts with an error if {it:val} is specified and 
-the initial number of nodes was already set.
+the network at time 0 is frozen, that is after 
+{help abm_nw_setup:setup()} has been run. {help abm_nw_clear:clear()} unfreezes 
+the network.
 		   

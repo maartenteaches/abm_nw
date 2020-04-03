@@ -1500,3 +1500,47 @@ end
 rcof "mata: foo.weighted(.5)"==3300
 rcof "mata: foo.weighted(2)"==3300
 rcof "mata: foo.weighted(-1)"==3300
+
+
+// ----------------------------------------------------------------------- clear
+mata:
+	foo = test_abm_nw()
+	foo.N_nodes(0,10)
+	foo.directed(0)
+	foo.tdim(0)
+	foo.weighted(0)
+	foo.sw(2,0.05)
+	foo.setup()
+	true = 
+  1 ,   2 ,   1  \
+  2 ,   3 ,   1  \
+  3 ,   4 ,   1  \
+  4 ,   5 ,   1  \
+  5 ,   6 ,   1  \
+  6 ,   7 ,   1  \
+  7 ,   8 ,   1  \
+  8 ,   9 ,   1  \
+  8 ,  10 ,   1  \
+  9 ,  10 ,   1  
+
+	assert(foo.export_edgelist() == true)
+	foo.clear()
+	foo.sw(2,0.05)
+	true = 
+  1 ,   2 ,   1  \
+  1 ,  10 ,   1  \
+  2 ,   3 ,   1  \
+  3 ,   4 ,   1  \
+  4 ,   5 ,   1  \
+  5 ,   6 ,   1  \
+  6 ,   7 ,   1  \
+  7 ,   8 ,   1  \
+  8 ,   9 ,   1  \
+  9 ,  10 ,   1  
+
+  assert(foo.export_edgelist() == true)
+  
+  foo.clear()
+  foo.weighted(1)
+  
+end

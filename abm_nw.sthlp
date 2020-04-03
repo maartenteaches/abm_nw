@@ -58,6 +58,7 @@ of nodes in random order{p_end}
 {p2col:{helpb abm_nw_random:random()}}creates a fuly random network{p_end}
 {p2col:{helpb abm_nw_sw:sw()}}creates a random network with small-world properties (using a 
 Watts-Strogatz model){p_end}
+{p2col:{helpb abm_nw_clear:clear()}}clears the network, but keeps the settings.{p_end}
 
 {p2col 6 23 25 8:{it: manipulate a network}}{p_end}
 {p2col:{helpb abm_nw_add_edge:add_edge()}}adds an edge{p_end}

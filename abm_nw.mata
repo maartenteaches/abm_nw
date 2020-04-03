@@ -67,6 +67,7 @@ class abm_nw
 		void                             change_weight()
 		void                             remove_node()
 		void                             rewire()
+        void                             clear()
 		
 		real                   rowvector neighbours()
 		real                   scalar    weight()
@@ -251,7 +252,7 @@ transmorphic abm_nw::N_nodes( real scalar t, | real scalar N){
 		if (args()==2){
 			if (t!=0) _error("number of nodes can only be set for t=0")
 		    is_posint(N)
-			if (N_nodes0 != .) _error("Number of nodes has already been set")
+			is_frozen()
 			N_nodes0 = N
 			adjlist0 = J(N_nodes0,1,NULL)
 			for(i=1; i<=N_nodes0; i++) {
@@ -276,7 +277,7 @@ transmorphic abm_nw::randomit(| real scalar bool)
 {
     if(args()==1) {
 	    is_bool(bool)
-		if (randomit!=.) _error("randomit has already been set")
+		is_frozen()
 		randomit = bool
 	}
 	else {
@@ -319,9 +320,7 @@ transmorphic abm_nw::tdim(| real scalar t)
     real scalar i,j
 	
 	if(args()==1) {
-	    if (tdim!=.) {
-		    _error(3000, "tdim already set")
-		}
+	    is_frozen()
 	    is_posint(t, "zero_ok")
 	    is_nodesset()
 		tdim = t
@@ -352,9 +351,7 @@ transmorphic abm_nw::directed(| real scalar bool)
 {
     if (args()==1)  {
 	    is_bool(bool)
-		if (directed != .) {
-		    _error(3000, "directed already set")
-		}
+		is_frozen()
 		directed = bool
 	}
 	else{
@@ -366,7 +363,7 @@ transmorphic abm_nw::weighted(| real scalar bool)
 {
 	if(args()==1) {
 		is_bool(bool)
-		if (weighted != .) _error("weighted already set")
+		is_frozen()
 		weighted = bool
 	}
 	else {
@@ -555,6 +552,7 @@ void abm_nw::sw(real scalar degree, real scalar pr)
 			}
 		}
 	}
+	nw_set=1
 }
 
 void abm_nw::add_edge(real scalar t, real scalar orig, real scalar dest,| real scalar weight, string scalar replace, string scalar fast)
@@ -982,6 +980,42 @@ real vector abm_nw::schedule(| real scalar t)
 	}
 	if (randomit) res = jumble(res')'
 	return(res)
+}
+
+void abm_nw::clear()
+{
+	real scalar i,j
+
+	adjlist0 = J(N_nodes0,1,NULL)
+	for(i=1; i<=N_nodes0; i++) {
+		adjlist0[i] = &(J(1,0,.))
+	}
+	nodes0 = 1..N_nodes0
+	maxnodes = N_nodes0
+
+	dropped_nodes0 = J(1,0,.)
+	
+	if (tdim > 0 & tdim < .) {
+		adjlist = J(maxnodes, tdim, NULL)
+		nodes = J(tdim,1,NULL)
+		N_nodes = J(tdim,1,.)
+		N_edges = J(tdim,1,0)
+		dropped_nodes = J(tdim,1,NULL)
+		frozen = J(tdim,1,0)
+		for(i=1;i<=tdim; i++) {
+			dropped_nodes[i] = &(J(1,0,.))
+		}
+		
+		for(i=1; i<= maxnodes; i++) {
+			for(j=1; j<=tdim; j++) {
+				adjlist[i,j] = &(J(1,0,.))
+			}
+		}
+	}
+	if (weighted==1) network.clear()
+	nw_set    = 0
+	setup     = 0
+
 }
 
 end

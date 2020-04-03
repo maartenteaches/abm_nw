@@ -56,5 +56,6 @@ set.
 {cmd:tdim(}{it:val}{cmd:)} aborts with an error if {it:val} is negative or not an integer.
 
 {p 4 4 2}
-{cmd:tdim(}{it:val}{cmd:)} aborts with an error if the time dimension has 
-already been set.		   
+{cmd:tdim(}{it:val}{cmd:)} aborts with an error if the network at time 0 is frozen, that is after 
+{help abm_nw_setup:setup()} has been run. {help abm_nw_clear:clear()} unfreezes 
+the network.		   
